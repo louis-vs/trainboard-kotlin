@@ -81,8 +81,12 @@ extension ViewController: UIPickerViewDataSource {
 }
 
 extension ViewController: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row].stationName
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let label = UILabel()
+        label.text = pickerData[row].stationName
+        label.textAlignment = .center
+        label.font = UIFont(name: "System", size: 10)
+        return label
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
