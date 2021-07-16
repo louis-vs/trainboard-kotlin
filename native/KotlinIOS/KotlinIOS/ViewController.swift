@@ -9,9 +9,9 @@ class ViewController: UIViewController {
     @IBOutlet private var button: UIButton!
     @IBOutlet private var resultsTable: UITableView!
     
-    private var pickerData: [String] = [String]()
-    private var fromSelected: String!
-    private var toSelected: String!
+    private var pickerData: [Station] = [Station]()
+    private var fromSelected: Station!
+    private var toSelected: Station!
     private var journeyCollection: JourneyCollection!
     
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
@@ -60,7 +60,7 @@ extension ViewController: ApplicationContractView {
         }
     }
     
-    func setStations(stations: [String]) {
+    func setStations(stations: [Station]) {
         pickerData = stations
         fromSelected = stations[0]
         toSelected = stations[1]
@@ -82,7 +82,7 @@ extension ViewController: UIPickerViewDataSource {
 
 extension ViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row]
+        return pickerData[row].stationName
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
