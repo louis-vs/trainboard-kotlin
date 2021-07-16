@@ -11,7 +11,7 @@ import android.widget.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jetbrains.handson.mpp.mobile.*
+import com.softwire.lner.trainboard.mobile.*
 
 /**
  * The main view for the Android app

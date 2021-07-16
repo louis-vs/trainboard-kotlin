@@ -1,4 +1,4 @@
-package com.jetbrains.handson.mpp.mobile
+package com.softwire.lner.trainboard.mobile
 
 import com.soywiz.klock.*
 import io.ktor.client.HttpClient
@@ -26,6 +26,8 @@ fun createAppTitle(): String {
  * Currently these are represented as simple strings, since no other properties are associated
  * with them.
  */
+@ImplicitReflectionSerializer
+@UnstableDefault
 suspend fun getStationsFromApi(): List<Station> {
     val response: StationCollection = HttpClient {
         install(JsonFeature) {
