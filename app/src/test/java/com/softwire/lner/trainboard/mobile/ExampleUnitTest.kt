@@ -1,4 +1,4 @@
-package com.jetbrains.handson.mpp.mobile
+package com.softwire.lner.trainboard.mobile
 
 import org.junit.Test
 

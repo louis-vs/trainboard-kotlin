@@ -1,8 +1,6 @@
-package com.jetbrains.handson.mpp.mobile
+package com.softwire.lner.trainboard.mobile
 
-import android.content.Context
 import android.content.Intent
-import android.database.DataSetObserver
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +11,7 @@ import android.widget.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jetbrains.handson.mpp.mobile.*
 
 /**
  * The main view for the Android app
