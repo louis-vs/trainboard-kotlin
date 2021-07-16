@@ -75,7 +75,7 @@ fun dateTimeTzToString(dateTimeTz: DateTimeTz) : String {
     val targetDate = dateTimeTz.dayOfYear
     val nowDate = DateTimeTz.nowLocal().dayOfYear
     if (targetDate != nowDate){
-        return "(${targetDate - nowDate}) $time"
+        return "(+${targetDate - nowDate}) $time"
     }
     return time
 }
