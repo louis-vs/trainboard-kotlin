@@ -2,6 +2,7 @@ package com.softwire.lner.trainboard.mobile.models
 
 import com.softwire.lner.trainboard.mobile.dateTimeTzToString
 import com.softwire.lner.trainboard.mobile.stringToDateTimeTz
+import com.softwire.lner.trainboard.mobile.extraDay
 import kotlinx.serialization.Serializable
 
 /**
@@ -23,4 +24,6 @@ class Journey(
         get() = dateTimeTzToString(stringToDateTimeTz(departureTime))
     val arrivalTimeFormatted: String
         get() = dateTimeTzToString(stringToDateTimeTz(arrivalTime))
+    val extraDay: String
+        get() = extraDay(stringToDateTimeTz(arrivalTime))
 }

@@ -10,14 +10,15 @@ fun createAppTitle(): String {
     return "Journey Planner"
 }
 
-fun dateTimeTzToString(dateTimeTz: DateTimeTz) : String {
-    val time = dateTimeTz.format("HH:mm")
+fun dateTimeTzToString(dateTimeTz: DateTimeTz) = dateTimeTz.format("HH:mm")
+
+fun extraDay(dateTimeTz: DateTimeTz): String {
     val targetDate = dateTimeTz.dayOfYear
     val nowDate = DateTimeTz.nowLocal().dayOfYear
     if (targetDate != nowDate){
-        return "(+${targetDate - nowDate}) $time"
+        return "+${targetDate - nowDate}"
     }
-    return time
+    return ""
 }
 
 fun stringToDateTimeTz(dateTimeTz: String) : DateTimeTz {
