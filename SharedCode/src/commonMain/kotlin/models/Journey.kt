@@ -17,7 +17,7 @@ class Journey(
         val isFastestJourney: Boolean,
         val journeyDurationInMinutes: Int,
         val primaryTrainOperator: Map<String, String>,
-        val status: String
+        val status: Status
 ) {
     val departureTimeFormatted: String
         get() = dateTimeTzToString(stringToDateTimeTz(departureTime))

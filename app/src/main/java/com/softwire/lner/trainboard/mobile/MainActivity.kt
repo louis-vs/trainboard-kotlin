@@ -1,9 +1,12 @@
 package com.softwire.lner.trainboard.mobile
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -107,11 +110,11 @@ class RecyclerViewAdapter(private val dataSet: JourneyCollection) : RecyclerView
         val departureStationView: TextView = view.findViewById(R.id.departureStation)
         val arrivalStationView: TextView = view.findViewById(R.id.arrivalStation)
         val statusView: TextView = view.findViewById(R.id.statusText)
+        val statusDrawable: GradientDrawable = statusView.background as GradientDrawable
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.result_item, parent, false)
-
         return RecyclerViewHolder(view)
     }
 
@@ -121,7 +124,11 @@ class RecyclerViewAdapter(private val dataSet: JourneyCollection) : RecyclerView
         viewHolder.arrivalTimeView.text = journey.arrivalTimeFormatted
         viewHolder.departureStationView.text = journey.originStation.displayName
         viewHolder.arrivalStationView.text = journey.destinationStation.displayName
-        viewHolder.statusView.text = journey.status
+        viewHolder.statusView.text = journey.status.statusText
+        val backgroundColor = journey.status.backgroundColor
+        viewHolder.statusDrawable.setColor(Color.argb(backgroundColor.alpha, backgroundColor.red, backgroundColor.green, backgroundColor.blue))
+        val textColor = journey.status.textColor
+        viewHolder.statusView.setTextColor(Color.argb(textColor.alpha, textColor.red, textColor.green, textColor.blue))
     }
 
     override fun getItemCount() = dataSet.outboundJourneys.size
