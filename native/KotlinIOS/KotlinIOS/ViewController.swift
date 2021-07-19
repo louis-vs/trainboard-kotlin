@@ -52,6 +52,7 @@ extension ViewController: ApplicationContractView {
         self.journeyCollection = journeyCollection
         resultsTable.dataSource = self
         resultsTable.reloadData()
+        resultsTable.rowHeight = UITableView.automaticDimension
     }
     
     func openUrl(url: String) {
@@ -85,6 +86,7 @@ extension ViewController: UIPickerViewDelegate {
         let label = UILabel()
         label.text = pickerData[row].stationName
         label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth=true
         label.font = UIFont(name: "System", size: 10)
         return label
     }
@@ -108,13 +110,22 @@ extension ViewController : UITableViewDataSource {
         cell.arrivalTime.text = journey.arrivalTimeFormatted
         cell.departureStation.text = journey.originStation.displayName
         cell.arrivalStation.text = journey.destinationStation.displayName
-        cell.status.text = journey.status
+        cell.status.text = journey.status.statusText
+        let backgroundColor = journey.status.backgroundColor
+        cell.status.backgroundColor = UIColor(red: toCGFloat(component: backgroundColor.red), green: toCGFloat(component: backgroundColor.green), blue: toCGFloat(component: backgroundColor.blue), alpha: toCGFloat(component: backgroundColor.alpha))
+        let textColor = journey.status.textColor
+        cell.status.textColor = UIColor(red: toCGFloat(component: textColor.red), green: toCGFloat(component: textColor.green), blue: toCGFloat(component: textColor.blue), alpha: toCGFloat(component: textColor.alpha))
+        cell.status.textContainerInset = UIEdgeInsets(top: 5, left: 1, bottom: 5, right: 1);
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return journeyCollection.outboundJourneys.count
+    }
+    
+    func toCGFloat(component: Int32) -> CGFloat {
+        return CGFloat(Double(component) / 256.0)
     }
 }
 
@@ -123,7 +134,7 @@ class ResultsTableCell : UITableViewCell {
     @IBOutlet weak var arrivalTime: UILabel!
     @IBOutlet weak var departureStation: UILabel!
     @IBOutlet weak var arrivalStation: UILabel!
-    @IBOutlet weak var status: UILabel!
+    @IBOutlet weak var status: UITextView!
 }
 
 

@@ -1,9 +1,8 @@
 package com.softwire.lner.trainboard.mobile
 
 import kotlinx.coroutines.*
-import kotlinx.serialization.ImplicitReflectionSerializer
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.UnstableDefault
+import kotlinx.serialization.*
+import kotlinx.serialization.internal.StringDescriptor
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -77,7 +76,7 @@ class Journey(
         val isFastestJourney: Boolean,
         val journeyDurationInMinutes: Int,
         val primaryTrainOperator: Map<String, String>,
-        val status: String
+        val status: Status
 ) {
     val departureTimeFormatted: String
         get() = dateTimeTzToString(stringToDateTimeTz(departureTime))
@@ -95,6 +94,41 @@ class Station(val displayName: String = "", val name: String = "", val crs: Stri
     }
 }
 
+@Serializable(with = StatusSerializer::class)
+enum class Status (val statusText: String){
+    NORMAL("normal"),
+    DELAYED("delayed"),
+    CANCELLED("cancelled"),
+    FULLY_RESERVED("full");
+
+    val backgroundColor: Color
+        get() = when (this) {
+            NORMAL -> Color(0xff, 0x00, 0x88, 0x00)
+            DELAYED -> Color(0xff, 0xff, 0xbb, 0x00)
+            CANCELLED -> Color(0xff, 0xff, 0x00, 0x00)
+            FULLY_RESERVED -> Color(0xff, 0x00, 0x00, 0x00)
+        }
+
+    val textColor: Color
+        get() = when (this) {
+            DELAYED -> Color(0xff, 0x00, 0x00, 0x00)
+            else -> Color(0xff, 0xff, 0xff, 0xff)
+        }
+}
+
+@Serializer(forClass = Status::class)
+object StatusSerializer {
+    override val descriptor: SerialDescriptor = StringDescriptor
+
+    override fun deserialize(decoder: Decoder): Status {
+        return Status.valueOf(decoder.decodeString().toUpperCase())
+    }
+
+    override fun serialize(encoder: Encoder, status: Status) {
+        encoder.encodeString(status.name.toLowerCase())
+    }
+}
+
 @Serializable
 data class StationCollection(val stations: List<Station>)
 
@@ -103,3 +137,4 @@ data class ApiError(val error: String, val error_description: String)
 
 data class ApiResponse(val journeyCollection: JourneyCollection?, val apiError: ApiError?)
 
+data class Color(val alpha: Int, val red: Int, val green: Int, val blue: Int)

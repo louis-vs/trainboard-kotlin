@@ -13,10 +13,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5sp"
-        android:layout_marginTop="8dp"
         android:text="Main Text"
-        android:textColor="@android:color/black"
         android:textAlignment="center"
+        android:textColor="@android:color/black"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,54 +25,50 @@
         android:id="@+id/from_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="From:"
         android:textAlignment="center"
-        android:textSize="25sp"
         android:textColor="@android:color/black"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/from_spinner"
         app:layout_constraintEnd_toStartOf="@+id/from_spinner"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_text" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Spinner
         android:id="@+id/from_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:background="@android:drawable/dialog_holo_light_frame"
         android:spinnerMode="dialog"
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/to_text"
         app:layout_constraintStart_toEndOf="@+id/from_text"
-        app:layout_constraintTop_toBottomOf="@+id/main_text" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/to_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="1dp"
         android:text="To:"
         android:textAlignment="center"
-        android:textSize="25sp"
         android:textColor="@android:color/black"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/to_spinner"
         app:layout_constraintEnd_toStartOf="@+id/to_spinner"
         app:layout_constraintStart_toEndOf="@+id/from_spinner"
-        app:layout_constraintTop_toBottomOf="@+id/main_text" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Spinner
         android:id="@+id/to_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:background="@android:drawable/dialog_holo_light_frame"
         android:spinnerMode="dialog"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/to_text"
-        app:layout_constraintTop_toBottomOf="@+id/main_text" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Button
         android:id="@+id/search_btn"
@@ -101,5 +96,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_btn" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_text"
+        app:srcCompat="@drawable/ic_lner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
