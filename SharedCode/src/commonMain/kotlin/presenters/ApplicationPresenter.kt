@@ -39,18 +39,32 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
     override fun onViewTaken(view: ApplicationContract.View) {
         this.view = view
         view.setTitle(createAppTitle())
+
+        // set stations in coroutine
         coroutineScope.launch {
             withContext(dispatchers.io) {
-                val stationCollection = apiClient.queryApi(StationsApiRequest()).collection
+                val response = apiClient.queryApi(StationsApiRequest())
+                val stationCollection = response.collection
                 val stations: List<Station>
+
                 if (stationCollection is StationCollection) {
                     stations = stationCollection.stations
+
+                    // enter UI thread to update spinner
                     withContext(dispatchers.main) {
+                        // add all stations that don't have a null CRS identifier
+                        // TODO: sort stations?
                         view.setStations(stations.filter { it.crs != null })
                     }
                 } else {
-                    // smartcast failed
-                    view.displayErrorMessage("Failed to get stations: response of incorrect format.")
+                    // the response did not contain a station collection
+                    if (response.apiError != null) {
+                        // the API returned an error
+                        view.displayErrorMessage(response.apiError.error_description)
+                    } else {
+                        // something else happened
+                        view.displayErrorMessage("Failed to get stations: response of incorrect format.")
+                    }
                 }
             }
         }
@@ -61,22 +75,31 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
      */
     @ImplicitReflectionSerializer
     override fun runSearch(from: Station, to: Station) {
+        // disable the search button to avoid sending too many requests
         view.disableSearchButton()
+
         coroutineScope.launch {
+            // enter IO thread to send request
             withContext(dispatchers.io) {
+                // make request
                 val currentTime = DateTime.now() + TimeSpan(60000.0)
                 val apiRequest = FaresApiRequest(from.crs!!, to.crs!!, currentTime)
                 val apiResponse = apiClient.queryApi(apiRequest)
+
+                // enter UI thread to update the view
                 withContext(dispatchers.main) {
                     if (apiResponse.apiError == null) {
                         if (apiResponse.collection != null && apiResponse.collection is JourneyCollection && apiResponse.collection.outboundJourneys.count() > 0) {
                             view.displayJourneys(apiResponse.collection)
                         } else {
+                            // this error message isn't very descriptive - a number of things could have happened here
                             view.displayErrorMessage("No suitable trains found.")
                         }
                     } else {
                         view.displayErrorMessage(apiResponse.apiError.error_description)
                     }
+
+                    // re-enable the search button
                     view.enableSearchButton()
                 }
             }

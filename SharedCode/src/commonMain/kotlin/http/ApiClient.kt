@@ -37,6 +37,7 @@ class ApiClient {
 
         try {
             collection = createClient().use { client ->
+                // the request needs to know what class to use to deserialize
                 when (request.requestType) {
                     RequestType.GET_FARES -> client.request<JourneyCollection>(request.createHttpRequest())
                     RequestType.GET_STATIONS -> client.request<StationCollection>(request.createHttpRequest())
