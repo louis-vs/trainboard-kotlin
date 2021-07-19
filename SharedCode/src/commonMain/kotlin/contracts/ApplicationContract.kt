@@ -1,5 +1,7 @@
-package com.softwire.lner.trainboard.mobile
+package com.softwire.lner.trainboard.mobile.contracts
 
+import com.softwire.lner.trainboard.mobile.models.JourneyCollection
+import com.softwire.lner.trainboard.mobile.models.Station
 import kotlinx.coroutines.CoroutineScope
 
 /**
