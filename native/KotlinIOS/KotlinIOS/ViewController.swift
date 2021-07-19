@@ -39,7 +39,7 @@ extension ViewController: ApplicationContractView {
     }
     
     func setTitle(title: String) {
-        mainText.text = title
+        mainText.text = "\n" + title
     }
     
     func displayErrorMessage(message: String) {

@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.jetbrains.handson.mpp.mobile", appContext.packageName)
+        assertEquals("com.softwire.lner.trainboard.mobile", appContext.packageName)
     }
 }

@@ -1,4 +1,4 @@
-package com.jetbrains.handson.mpp.mobile
+package com.softwire.lner.trainboard.mobile
 
 import kotlinx.coroutines.*
 import kotlinx.serialization.ImplicitReflectionSerializer
@@ -24,6 +24,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
     /**
      * Views should call this when loaded.
      */
+    @ImplicitReflectionSerializer
     override fun onViewTaken(view: ApplicationContract.View) {
         this.view = view
         view.setTitle(createAppTitle())

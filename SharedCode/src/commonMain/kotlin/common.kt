@@ -1,8 +1,11 @@
-package com.jetbrains.handson.mpp.mobile
+package com.softwire.lner.trainboard.mobile
 
 import com.soywiz.klock.*
 import io.ktor.client.HttpClient
 import io.ktor.client.features.ClientRequestException
+import io.ktor.client.features.RedirectResponseException
+import io.ktor.client.features.ResponseException
+import io.ktor.client.features.ServerResponseException
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
@@ -26,6 +29,8 @@ fun createAppTitle(): String {
  * Currently these are represented as simple strings, since no other properties are associated
  * with them.
  */
+@ImplicitReflectionSerializer
+@UnstableDefault
 suspend fun getStationsFromApi(): List<Station> {
     val response: StationCollection = HttpClient {
         install(JsonFeature) {
@@ -55,16 +60,13 @@ suspend fun queryApi(from: String, to: String) : ApiResponse {
             client.get("https://mobile-api-softwire2.lner.co.uk/v1/fares") {
                 parameter("originStation", from)
                 parameter("destinationStation", to)
-                parameter("noChanges", "false")
-                parameter("numberOfAdults", 2)
+                parameter("numberOfAdults", 1)
                 parameter("numberOfChildren", 0)
-                parameter("journeyType", "single")
                 parameter("outboundDateTime", currentTime.format("YYYY-MM-ddTHH:mm:ssXXX"))
-                parameter("outboundIsArriveBy", "false")
             }
         }
         return ApiResponse(response, null)
-    } catch (e: ClientRequestException) {
+    } catch (e: ResponseException) {
         val apiError = Json.parse<ApiError>(e.response.readText())
         return ApiResponse(null, apiError)
     }
