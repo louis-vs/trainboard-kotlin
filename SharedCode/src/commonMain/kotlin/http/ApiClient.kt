@@ -15,7 +15,19 @@ import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.parse
 
+/**
+ * The entry point into the API. Manages HTTP requests.
+ *
+ * Only ever opens an HTTP client when making a request, to ensure that the client is closed
+ * whenever requests are not being made.
+ */
 class ApiClient {
+    /**
+     * Queries the API using the provided ApiRequest.
+     *
+     * This function suspends - use of coroutines needs to be handled in a Presenter, since only
+     * presenters have access to dispatchers (at least in our implementation).
+     */
     @ImplicitReflectionSerializer
     @UnstableDefault
     suspend fun queryApi(request: ApiRequest) : ApiResponse {
@@ -39,6 +51,9 @@ class ApiClient {
         return response
     }
 
+    /**
+     * Creates an HttpClient with the correct settings.
+     */
     @UnstableDefault
     private fun createClient() = HttpClient {
         install(JsonFeature) {

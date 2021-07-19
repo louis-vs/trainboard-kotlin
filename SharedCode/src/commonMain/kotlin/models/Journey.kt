@@ -4,6 +4,9 @@ import com.softwire.lner.trainboard.mobile.dateTimeTzToString
 import com.softwire.lner.trainboard.mobile.stringToDateTimeTz
 import kotlinx.serialization.Serializable
 
+/**
+ * Holds information about a single journey as returned by the API.
+ */
 @Serializable
 class Journey(
         val journeyId: String,

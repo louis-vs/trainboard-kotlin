@@ -4,6 +4,9 @@ import com.soywiz.klock.DateTime
 import io.ktor.client.request.*
 import io.ktor.http.*
 
+/**
+ * A request to the fares API.
+ */
 class FaresApiRequest(private val fromStation: String, private val toStation: String, private val outboundDateTime: DateTime) : ApiRequest(FARES_PATH, RequestType.GET_FARES) {
     override fun createHttpRequest() : HttpRequestBuilder {
         val request = HttpRequestBuilder {
