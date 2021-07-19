@@ -11,7 +11,10 @@ import android.widget.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.softwire.lner.trainboard.mobile.*
+import com.softwire.lner.trainboard.mobile.contracts.ApplicationContract
+import com.softwire.lner.trainboard.mobile.models.JourneyCollection
+import com.softwire.lner.trainboard.mobile.models.Station
+import com.softwire.lner.trainboard.mobile.presenters.ApplicationPresenter
 
 /**
  * The main view for the Android app

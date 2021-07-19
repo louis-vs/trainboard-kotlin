@@ -1,8 +1,18 @@
-package com.softwire.lner.trainboard.mobile
+package com.softwire.lner.trainboard.mobile.presenters
 
+import com.softwire.lner.trainboard.mobile.AppDispatchersImpl
+import com.softwire.lner.trainboard.mobile.contracts.ApplicationContract
+import com.softwire.lner.trainboard.mobile.createAppTitle
+import com.softwire.lner.trainboard.mobile.http.ApiClient
+import com.softwire.lner.trainboard.mobile.http.FaresApiRequest
+import com.softwire.lner.trainboard.mobile.http.StationsApiRequest
+import com.softwire.lner.trainboard.mobile.models.JourneyCollection
+import com.softwire.lner.trainboard.mobile.models.Station
+import com.softwire.lner.trainboard.mobile.models.StationCollection
+import com.soywiz.klock.DateTime
+import com.soywiz.klock.TimeSpan
 import kotlinx.coroutines.*
 import kotlinx.serialization.ImplicitReflectionSerializer
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.UnstableDefault
 import kotlin.coroutines.CoroutineContext
 
@@ -15,6 +25,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
 
     private val dispatchers = AppDispatchersImpl()
     private val job: Job = SupervisorJob()
+    private val apiClient = ApiClient()
     private lateinit var view: ApplicationContract.View
 
     override val coroutineContext: CoroutineContext
@@ -30,9 +41,16 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         view.setTitle(createAppTitle())
         coroutineScope.launch {
             withContext(dispatchers.io) {
-                val stations = getStationsFromApi()
-                withContext(dispatchers.main) {
-                    view.setStations(stations.filter { it.crs != null })
+                val stationCollection = apiClient.queryApi(StationsApiRequest()).collection
+                val stations: List<Station>
+                if (stationCollection is StationCollection) {
+                    stations = stationCollection.stations
+                    withContext(dispatchers.main) {
+                        view.setStations(stations.filter { it.crs != null })
+                    }
+                } else {
+                    // smartcast failed
+                    view.displayErrorMessage("Failed to get stations: response of incorrect format.")
                 }
             }
         }
@@ -46,11 +64,13 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         view.disableSearchButton()
         coroutineScope.launch {
             withContext(dispatchers.io) {
-                val apiResponse = queryApi(from.crs!!, to.crs!!)
+                val currentTime = DateTime.now() + TimeSpan(60000.0)
+                val apiRequest = FaresApiRequest(from.crs!!, to.crs!!, currentTime)
+                val apiResponse = apiClient.queryApi(apiRequest)
                 withContext(dispatchers.main) {
                     if (apiResponse.apiError == null) {
-                        if (apiResponse.journeyCollection != null && apiResponse.journeyCollection.outboundJourneys.count() > 0) {
-                            view.displayJourneys(apiResponse.journeyCollection)
+                        if (apiResponse.collection != null && apiResponse.collection is JourneyCollection && apiResponse.collection.outboundJourneys.count() > 0) {
+                            view.displayJourneys(apiResponse.collection)
                         } else {
                             view.displayErrorMessage("No suitable trains found.")
                         }
@@ -63,43 +83,3 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         }
     }
 }
-
-@Serializable
-data class JourneyCollection(val outboundJourneys: List<Journey>)
-
-@Serializable
-class Journey(
-        val journeyId: String,
-        val departureTime: String,
-        val arrivalTime: String,
-        val originStation: Station,
-        val destinationStation: Station,
-        val isFastestJourney: Boolean,
-        val journeyDurationInMinutes: Int,
-        val primaryTrainOperator: Map<String, String>,
-        val status: String
-) {
-    val departureTimeFormatted: String
-        get() = dateTimeTzToString(stringToDateTimeTz(departureTime))
-    val arrivalTimeFormatted: String
-        get() = dateTimeTzToString(stringToDateTimeTz(arrivalTime))
-}
-
-@Serializable
-class Station(val displayName: String = "", val name: String = "", val crs: String?, val nlc: String) {
-    val stationName: String
-        get() = if (displayName == "") name else displayName
-
-    override fun toString(): String {
-        return stationName
-    }
-}
-
-@Serializable
-data class StationCollection(val stations: List<Station>)
-
-@Serializable
-data class ApiError(val error: String, val error_description: String)
-
-data class ApiResponse(val journeyCollection: JourneyCollection?, val apiError: ApiError?)
-
