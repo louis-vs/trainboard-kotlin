@@ -9,4 +9,5 @@ actual fun platformName(): String {
 actual class AppDispatchersImpl: AppDispatchers {
     override val main = Dispatchers.Main
     override val io = Dispatchers.IO
+    override val default = Dispatchers.Default
 }

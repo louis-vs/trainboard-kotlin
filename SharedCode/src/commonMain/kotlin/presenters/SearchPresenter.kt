@@ -33,7 +33,7 @@ class SearchPresenter: SearchContract.Presenter() {
 
     override fun filterStations(filter: String?, stations: List<Station>) {
         coroutineScope.launch {
-            withContext(Dispatchers.Default) {
+            withContext(dispatchers.default) {
                 var stationsToDisplay = stations
                 if (filter != null){
                     stationsToDisplay = stations.filter { it.stationName.startsWith(filter)
