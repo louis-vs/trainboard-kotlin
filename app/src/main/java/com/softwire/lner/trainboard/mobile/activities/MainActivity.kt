@@ -13,6 +13,7 @@ import com.softwire.lner.trainboard.mobile.adapters.ResultsRecyclerViewAdapter
 import com.softwire.lner.trainboard.mobile.contracts.ApplicationContract
 import com.softwire.lner.trainboard.mobile.models.JourneyCollection
 import com.softwire.lner.trainboard.mobile.models.Station
+import com.softwire.lner.trainboard.mobile.models.StationCollection
 import com.softwire.lner.trainboard.mobile.presenters.ApplicationPresenter
 
 /**
@@ -47,10 +48,10 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
         // add event listeners
         fromButton.setOnClickListener {
-            startActivityForResult(Intent(this, StationSearchActivity::class.java), PICK_FROM_STATION_REQUEST)
+            launchSearchActivity(PICK_FROM_STATION_REQUEST)
         }
         toButton.setOnClickListener {
-            startActivityForResult(Intent(this, StationSearchActivity::class.java), PICK_TO_STATION_REQUEST)
+            launchSearchActivity(PICK_TO_STATION_REQUEST)
         }
         searchButton.setOnClickListener {
             if (fromStation != null && toStation != null) {
@@ -127,7 +128,12 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     override fun launchSearchActivity() {
-        //TODO("Not yet implemented")
+//        TODO("Not yet implemented")
+    }
+
+    private fun launchSearchActivity(requestCode: Int) {
+        val intent = Intent(this, StationSearchActivity::class.java)
+        startActivityForResult(intent, requestCode)
     }
 
     override fun disableSearchButton() {

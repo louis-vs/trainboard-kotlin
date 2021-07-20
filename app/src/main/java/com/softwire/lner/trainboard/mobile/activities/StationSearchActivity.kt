@@ -52,7 +52,7 @@ class StationSearchActivity : AppCompatActivity(), SearchContract.View {
         searchTitle.text = title
     }
 
-    override fun setStations(stations: List<Station>) {
+    override fun displayStations(stations: List<Station>) {
         this.stations = stations
 
         stationsAdapter.notifyDataSetChanged()
