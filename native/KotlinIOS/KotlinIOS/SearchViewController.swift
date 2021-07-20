@@ -30,9 +30,7 @@ class SearchViewController: UIViewController {
     }
     
     @objc func didGetTitleNotification(notification: Notification) {
-        title = notification.object as? String
-        setTitle(title: title!)
-        self.title = title!
+        title = (notification.object as! String)
     }
     
     @objc func didGetStationsNotification(notification: Notification) {
@@ -50,44 +48,50 @@ extension SearchViewController: SearchContractView {
     func displayStations(stations: [Station]) {
         self.stationsDisplay = stations
         stationsTable.dataSource = self
+        stationsTable.delegate = self
         stationsTable.reloadData()
         stationsTable.rowHeight = UITableView.automaticDimension
-    }
-    
-    func setTitle(title: String) {
-        self.title = title
     }
 }
 
 extension SearchViewController : UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filter = searchText
-        if (filter != ""){
-            presenter.filterStations(filter: searchText, stations: stationsData)
-        }
+        presenter.filterStations(filter: searchText, stations: stationsData)
     }
 }
 
 extension SearchViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (stationsDisplay.count == 0){
+            let emptyCell = tableView.dequeueReusableCell(withIdentifier: "no_stations_item", for: indexPath) 
+            tableView.allowsSelection = false
+            return emptyCell
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "stations_item", for: indexPath) as! StationsTableCell
         let station = stationsDisplay[indexPath.item]
         
         cell.stationName.text = station.stationName
         cell.stationCrs.text = station.crs
         cell.stationNlc.text = station.nlc
+        tableView.allowsSelection = true
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return stationsDisplay.count
+        return (stationsDisplay.count > 0) ? stationsDisplay.count : 1
     }
-    
+}
+
+extension SearchViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedStation = stationsDisplay[indexPath.item]
-        
-        NotificationCenter.default.post(name: Notification.Name("StationsSelected"), object: selectedStation)
+        let selectionReturn = SelectionReturn(type: title, stationSelected: selectedStation)
+        NotificationCenter.default.post(name: Notification.Name("StationsSelected"), object: selectionReturn)
+        tableView.deselectRow(at: indexPath, animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

@@ -1,4 +1,5 @@
 import UIKit
+import SharedCode
 
 class ResultsTableCell : UITableViewCell {
     @IBOutlet weak var departureTime: UILabel!
@@ -15,3 +16,14 @@ class StationsTableCell : UITableViewCell {
     @IBOutlet weak var stationCrs: UILabel!
     @IBOutlet weak var stationNlc: UILabel!
 }
+
+class SelectionReturn {
+    var type: String?
+    var stationSelected: Station
+    
+    init (type: String?, stationSelected: Station) {
+        self.type = type
+        self.stationSelected = stationSelected
+    }
+}
+
