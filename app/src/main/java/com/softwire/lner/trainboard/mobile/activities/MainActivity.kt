@@ -18,6 +18,7 @@ import com.softwire.lner.trainboard.mobile.presenters.ApplicationPresenter
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.*
+import kotlinx.serialization.parse
 import kotlinx.serialization.stringify
 
 /**
@@ -79,11 +80,15 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         when (requestCode) {
             PICK_FROM_STATION_REQUEST ->
                 if (resultCode == RESULT_OK) {
-                    fromStation = stations.find { it.crs == intent?.dataString }
+                    val station = Json.parse(Station.serializer(), intent!!.getStringExtra("STATION")!!)
+                    fromStation = station
+                    fromButton.text = station.toString()
                 }
             PICK_TO_STATION_REQUEST ->
                 if (resultCode == RESULT_OK) {
-                    toStation = stations.find { it.crs == intent?.dataString }
+                    val station = Json.parse(Station.serializer(), intent!!.getStringExtra("STATION")!!)
+                    toStation = station
+                    toButton.text = station.toString()
                 }
         }
     }

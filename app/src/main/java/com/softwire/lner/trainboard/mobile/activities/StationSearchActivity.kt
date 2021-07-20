@@ -43,7 +43,7 @@ class StationSearchActivity : AppCompatActivity(), SearchContract.View {
         allStations = collection.stations
         filteredStations.clear()
         filteredStations.addAll(allStations)
-        stationsAdapter = StationsRecyclerViewAdapter(filteredStations)
+        stationsAdapter = StationsRecyclerViewAdapter(filteredStations, this)
         stationsRecyclerView.adapter = stationsAdapter
 
         val layoutManager = LinearLayoutManager(this)
