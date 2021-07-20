@@ -12,7 +12,11 @@ import com.softwire.lner.trainboard.mobile.R
 import com.softwire.lner.trainboard.mobile.adapters.StationsRecyclerViewAdapter
 import com.softwire.lner.trainboard.mobile.contracts.SearchContract
 import com.softwire.lner.trainboard.mobile.models.Station
+import com.softwire.lner.trainboard.mobile.models.StationCollection
 import com.softwire.lner.trainboard.mobile.presenters.SearchPresenter
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.parse
 
 class StationSearchActivity : AppCompatActivity(), SearchContract.View {
     private lateinit var presenter: SearchContract.Presenter
@@ -32,7 +36,8 @@ class StationSearchActivity : AppCompatActivity(), SearchContract.View {
         searchInput = findViewById(R.id.searchInput)
         stationsRecyclerView = findViewById(R.id.stationsRecyclerView)
 
-        stations = listOf()
+        val collection: StationCollection = Json.parse(StationCollection.serializer(), intent.getStringExtra("LIST"))
+        stations = collection.stations
         stationsAdapter = StationsRecyclerViewAdapter(stations)
         stationsRecyclerView.adapter = stationsAdapter
 

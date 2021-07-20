@@ -20,7 +20,7 @@ class StationsRecyclerViewAdapter(private val stations: List<Station>) : Recycle
     }
 
     override fun onBindViewHolder(holder: StationsRecyclerViewHolder, position: Int) {
-        holder.stationItemTitle.text = stations[position].displayName
+        holder.stationItemTitle.text = stations[position].stationName
     }
 
     override fun getItemCount(): Int {

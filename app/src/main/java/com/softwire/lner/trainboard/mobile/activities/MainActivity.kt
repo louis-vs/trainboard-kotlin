@@ -15,6 +15,10 @@ import com.softwire.lner.trainboard.mobile.models.JourneyCollection
 import com.softwire.lner.trainboard.mobile.models.Station
 import com.softwire.lner.trainboard.mobile.models.StationCollection
 import com.softwire.lner.trainboard.mobile.presenters.ApplicationPresenter
+import kotlinx.serialization.ImplicitReflectionSerializer
+import kotlinx.serialization.UnstableDefault
+import kotlinx.serialization.json.*
+import kotlinx.serialization.stringify
 
 /**
  * The main view for the Android app
@@ -37,6 +41,8 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         internal const val PICK_TO_STATION_REQUEST = 1
     }
 
+    @ImplicitReflectionSerializer
+    @UnstableDefault
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -127,12 +133,11 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         searchButton.text = "Search"
     }
 
-    override fun launchSearchActivity() {
-//        TODO("Not yet implemented")
-    }
-
+    @ImplicitReflectionSerializer
+    @UnstableDefault
     private fun launchSearchActivity(requestCode: Int) {
         val intent = Intent(this, StationSearchActivity::class.java)
+        intent.putExtra("LIST", Json.stringify(StationCollection(stations)))
         startActivityForResult(intent, requestCode)
     }
 
