@@ -16,9 +16,9 @@ interface SearchContract {
         fun setTitle(title: String)
 
         /**
-         * REMOVED: Reference only Sets the contents of the spinners/pickers to a list of station codes
+         * Sets the contents of the spinners/pickers to a list of station codes
          */
-        fun setStations(stations: List<Station>)
+        fun displayStations(stations: List<Station>)
 
         /**
          * Displays an error message to the user
