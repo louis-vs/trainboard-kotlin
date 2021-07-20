@@ -1,6 +1,8 @@
 package com.softwire.lner.trainboard.mobile.activities
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -25,7 +27,8 @@ class StationSearchActivity : AppCompatActivity(), SearchContract.View {
     private lateinit var searchInput: EditText
     private lateinit var stationsRecyclerView: RecyclerView
 
-    private lateinit var stations: List<Station>
+    private val filteredStations: MutableList<Station> = mutableListOf()
+    private lateinit var allStations: List<Station>
     private lateinit var stationsAdapter: StationsRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,8 +40,10 @@ class StationSearchActivity : AppCompatActivity(), SearchContract.View {
         stationsRecyclerView = findViewById(R.id.stationsRecyclerView)
 
         val collection: StationCollection = Json.parse(StationCollection.serializer(), intent.getStringExtra("LIST"))
-        stations = collection.stations
-        stationsAdapter = StationsRecyclerViewAdapter(stations)
+        allStations = collection.stations
+        filteredStations.clear()
+        filteredStations.addAll(allStations)
+        stationsAdapter = StationsRecyclerViewAdapter(filteredStations)
         stationsRecyclerView.adapter = stationsAdapter
 
         val layoutManager = LinearLayoutManager(this)
@@ -46,6 +51,19 @@ class StationSearchActivity : AppCompatActivity(), SearchContract.View {
 
         val dividerItemDecoration = DividerItemDecoration(stationsRecyclerView.context, layoutManager.orientation)
         stationsRecyclerView.addItemDecoration(dividerItemDecoration)
+
+
+        searchInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                presenter.filterStations(searchInput.text.toString(), allStations)
+            }
+        })
 
         presenter = SearchPresenter()
         presenter.onViewTaken(this)
@@ -58,7 +76,8 @@ class StationSearchActivity : AppCompatActivity(), SearchContract.View {
     }
 
     override fun displayStations(stations: List<Station>) {
-        this.stations = stations
+        filteredStations.clear()
+        filteredStations.addAll(stations)
 
         stationsAdapter.notifyDataSetChanged()
     }
