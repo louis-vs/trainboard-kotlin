@@ -32,7 +32,7 @@ class StationSearchActivity : AppCompatActivity(), SearchContract.View {
         searchInput = findViewById(R.id.searchInput)
         stationsRecyclerView = findViewById(R.id.stationsRecyclerView)
 
-        stations = List()
+        stations = listOf()
         stationsAdapter = StationsRecyclerViewAdapter(stations)
         stationsRecyclerView.adapter = stationsAdapter
 
