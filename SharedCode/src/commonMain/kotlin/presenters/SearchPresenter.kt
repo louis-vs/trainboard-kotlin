@@ -31,17 +31,20 @@ class SearchPresenter: SearchContract.Presenter() {
         view.setTitle(createAppTitle())
     }
 
-    override fun filterStations(filter: String, stations: List<Station>) {
+    override fun filterStations(filter: String?, stations: List<Station>) {
         coroutineScope.launch {
             withContext(Dispatchers.Default) {
-                val stationsToDisplay = stations.filter { it.stationName.startsWith(filter)
-                                                        || it.crs!!.startsWith(filter)
-                                                        || it.nlc.startsWith(filter) }
+                var stationsToDisplay = stations
+                if (filter != null){
+                    stationsToDisplay = stations.filter { it.stationName.startsWith(filter)
+                            || it.crs!!.startsWith(filter)
+                            || it.nlc.startsWith(filter) }
+                }
                 if (stationsToDisplay.count() == 0) {
                     view.displayErrorMessage("No suitable stations found.")
                 }
                 withContext(dispatchers.main) {
-                    view.setStations(stationsToDisplay)
+                    view.displayStations(stationsToDisplay)
                 }
             }
         }

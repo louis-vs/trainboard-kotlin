@@ -28,7 +28,7 @@ interface SearchContract {
 
     abstract class Presenter: CoroutineScope {
         abstract fun onViewTaken(view: View)
-        abstract fun filterStations(filter: String, stations: List<Station>)
+        abstract fun filterStations(filter: String?, stations: List<Station>)
     }
 }
 
