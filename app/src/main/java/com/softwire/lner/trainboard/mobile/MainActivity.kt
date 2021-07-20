@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         searchButton.text = "Search"
     }
 
-    override fun launchSearchActivity() {
+    override fun launchSearchActivity(title: String) {
         //TODO("Not yet implemented")
     }
 

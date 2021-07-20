@@ -23,7 +23,7 @@ interface ApplicationContract {
         /**
          * Launches activity for station selection.
          */
-        fun launchSearchActivity()
+        fun launchSearchActivity(title: String)
 
         /**
          * Displays an error message to the user
