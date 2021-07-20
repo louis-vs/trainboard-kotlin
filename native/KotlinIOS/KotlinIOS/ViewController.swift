@@ -108,11 +108,13 @@ extension ViewController : UITableViewDataSource {
         
         cell.departureTime.text = journey.departureTimeFormatted
         cell.arrivalTime.text = journey.arrivalTimeFormatted
+        cell.extraDay.text = journey.extraDay
         cell.departureStation.text = journey.originStation.displayName
         cell.arrivalStation.text = journey.destinationStation.displayName
         cell.status.text = journey.status.statusText
         let backgroundColor = journey.status.backgroundColor
         cell.status.backgroundColor = UIColor(red: toCGFloat(component: backgroundColor.red), green: toCGFloat(component: backgroundColor.green), blue: toCGFloat(component: backgroundColor.blue), alpha: toCGFloat(component: backgroundColor.alpha))
+        cell.arrow.tintColor = UIColor(red: toCGFloat(component: backgroundColor.red), green: toCGFloat(component: backgroundColor.green), blue: toCGFloat(component: backgroundColor.blue), alpha: toCGFloat(component: backgroundColor.alpha))
         let textColor = journey.status.textColor
         cell.status.textColor = UIColor(red: toCGFloat(component: textColor.red), green: toCGFloat(component: textColor.green), blue: toCGFloat(component: textColor.blue), alpha: toCGFloat(component: textColor.alpha))
         cell.status.textContainerInset = UIEdgeInsets(top: 5, left: 1, bottom: 5, right: 1);
@@ -135,6 +137,8 @@ class ResultsTableCell : UITableViewCell {
     @IBOutlet weak var departureStation: UILabel!
     @IBOutlet weak var arrivalStation: UILabel!
     @IBOutlet weak var status: UITextView!
+    @IBOutlet weak var arrow: UIImageView!
+    @IBOutlet weak var extraDay: UILabel!
 }
 
 
