@@ -54,7 +54,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                     withContext(dispatchers.main) {
                         // add all stations that don't have a null CRS identifier
                         // TODO: sort stations?
-                        view.setStations(stations.filter { it.crs != null })
+                        view.saveStations(stations.filter { it.crs != null })
                     }
                 } else {
                     // the response did not contain a station collection
@@ -74,33 +74,42 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
      * Runs an API call which returns information about the fares between two stations.
      */
     @ImplicitReflectionSerializer
-    override fun runSearch(from: Station, to: Station) {
-        // disable the search button to avoid sending too many requests
-        view.disableSearchButton()
+    override fun runSearch(from: Station?, to: Station?) {
 
-        coroutineScope.launch {
-            // enter IO thread to send request
-            withContext(dispatchers.io) {
-                // make request
-                val currentTime = DateTime.now() + TimeSpan(60000.0)
-                val apiRequest = FaresApiRequest(from.crs!!, to.crs!!, currentTime)
-                val apiResponse = apiClient.queryApi(apiRequest)
+        if (from == null) {
+            view.displayErrorMessage("Origin station cannot be empty.")
+        }
+        else if (to == null){
+            view.displayErrorMessage("Destination station cannot be empty.")
+        }
+        else {
+            // disable the search button to avoid sending too many requests
+            view.disableSearchButton()
 
-                // enter UI thread to update the view
-                withContext(dispatchers.main) {
-                    if (apiResponse.apiError == null) {
-                        if (apiResponse.collection != null && apiResponse.collection is JourneyCollection && apiResponse.collection.outboundJourneys.count() > 0) {
-                            view.displayJourneys(apiResponse.collection)
+            coroutineScope.launch {
+                // enter IO thread to send request
+                withContext(dispatchers.io) {
+                    // make request
+                    val currentTime = DateTime.now() + TimeSpan(60000.0)
+                    val apiRequest = FaresApiRequest(from.crs!!, to.crs!!, currentTime)
+                    val apiResponse = apiClient.queryApi(apiRequest)
+
+                    // enter UI thread to update the view
+                    withContext(dispatchers.main) {
+                        if (apiResponse.apiError == null) {
+                            if (apiResponse.collection != null && apiResponse.collection is JourneyCollection && apiResponse.collection.outboundJourneys.count() > 0) {
+                                view.displayJourneys(apiResponse.collection)
+                            } else {
+                                // this error message isn't very descriptive - a number of things could have happened here
+                                view.displayErrorMessage("No suitable trains found.")
+                            }
                         } else {
-                            // this error message isn't very descriptive - a number of things could have happened here
-                            view.displayErrorMessage("No suitable trains found.")
+                            view.displayErrorMessage(apiResponse.apiError.error_description)
                         }
-                    } else {
-                        view.displayErrorMessage(apiResponse.apiError.error_description)
-                    }
 
-                    // re-enable the search button
-                    view.enableSearchButton()
+                        // re-enable the search button
+                        view.enableSearchButton()
+                    }
                 }
             }
         }
