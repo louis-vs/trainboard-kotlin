@@ -40,9 +40,6 @@ class SearchPresenter: SearchContract.Presenter() {
                             || it.nlc.startsWith(filter) }
                 }
                 withContext(dispatchers.main) {
-                    if (stationsToDisplay.count() == 0) {
-                        view.displayErrorMessage("No suitable stations found.")
-                    }
                     view.displayStations(stationsToDisplay)
                 }
             }
