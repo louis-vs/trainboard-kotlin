@@ -3,6 +3,7 @@ package com.softwire.lner.trainboard.mobile.presenters
 import com.softwire.lner.trainboard.mobile.AppDispatchersImpl
 import com.softwire.lner.trainboard.mobile.contracts.SearchContract
 import com.softwire.lner.trainboard.mobile.createAppTitle
+import com.softwire.lner.trainboard.mobile.createSearchTitle
 import com.softwire.lner.trainboard.mobile.models.Station
 import kotlinx.coroutines.*
 import kotlinx.serialization.UnstableDefault
@@ -28,7 +29,7 @@ class SearchPresenter: SearchContract.Presenter() {
      */
     override fun onViewTaken(view: SearchContract.View) {
         this.view = view
-        view.setTitle(createAppTitle())
+        view.setTitle(createSearchTitle())
     }
 
     override fun filterStations(filter: String?, stations: List<Station>) {
