@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.softwire.lner.trainboard.mobile.R
 import com.softwire.lner.trainboard.mobile.models.JourneyCollection
 
-class RecyclerViewAdapter(private val dataSet: JourneyCollection) : RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>() {
+class ResultsRecyclerViewAdapter(private val dataSet: JourneyCollection) : RecyclerView.Adapter<ResultsRecyclerViewAdapter.ResultsRecyclerViewHolder>() {
 
-    class RecyclerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ResultsRecyclerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val departureTimeView: TextView = view.findViewById(R.id.departureTime)
         val arrivalTimeView: TextView = view.findViewById(R.id.arrivalTime)
         val arrivalExtraDayView: TextView = view.findViewById(R.id.arrivalExtraDay)
@@ -25,12 +25,12 @@ class RecyclerViewAdapter(private val dataSet: JourneyCollection) : RecyclerView
         val arrowDrawable: GradientDrawable = arrowView.background as GradientDrawable
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultsRecyclerViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.result_item, parent, false)
-        return RecyclerViewHolder(view)
+        return ResultsRecyclerViewHolder(view)
     }
 
-    override fun onBindViewHolder(viewHolder: RecyclerViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: ResultsRecyclerViewHolder, position: Int) {
         val journey = dataSet.outboundJourneys[position]
         viewHolder.departureTimeView.text = journey.departureTimeFormatted
         viewHolder.arrivalTimeView.text = journey.arrivalTimeFormatted

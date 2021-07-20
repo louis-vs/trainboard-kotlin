@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.softwire.lner.trainboard.mobile.R
-import com.softwire.lner.trainboard.mobile.adapters.RecyclerViewAdapter
+import com.softwire.lner.trainboard.mobile.adapters.ResultsRecyclerViewAdapter
 import com.softwire.lner.trainboard.mobile.contracts.ApplicationContract
 import com.softwire.lner.trainboard.mobile.models.JourneyCollection
 import com.softwire.lner.trainboard.mobile.models.Station
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     override fun displayJourneys(journeyCollection: JourneyCollection) {
-        val adapter = RecyclerViewAdapter(journeyCollection)
+        val adapter = ResultsRecyclerViewAdapter(journeyCollection)
 
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.adapter = adapter
