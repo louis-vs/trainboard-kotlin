@@ -23,7 +23,7 @@ interface ApplicationContract {
         /**
          * Launches activity for station selection.
          */
-        fun launchSearchActivity()
+        fun launchSearchActivity(title: String)
 
         /**
          * Displays an error message to the user
@@ -48,6 +48,6 @@ interface ApplicationContract {
 
     abstract class Presenter: CoroutineScope {
         abstract fun onViewTaken(view: View)
-        abstract fun runSearch(from: Station, to: Station)
+        abstract fun runSearch(from: Station?, to: Station?)
     }
 }
