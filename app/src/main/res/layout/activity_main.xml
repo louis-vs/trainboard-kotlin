@@ -1,110 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.softwire.lner.trainboard.mobile.activities.MainActivity">
-
-    <TextView
-        android:id="@+id/main_text"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5sp"
-        android:text="Main Text"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/from_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="From:"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@+id/from_spinner"
-        app:layout_constraintEnd_toStartOf="@+id/from_spinner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <Spinner
-        android:id="@+id/from_spinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/dialog_holo_light_frame"
-        android:spinnerMode="dialog"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/to_text"
-        app:layout_constraintStart_toEndOf="@+id/from_text"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <TextView
-        android:id="@+id/to_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="1dp"
-        android:text="To:"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@+id/to_spinner"
-        app:layout_constraintEnd_toStartOf="@+id/to_spinner"
-        app:layout_constraintStart_toEndOf="@+id/from_spinner"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <Spinner
-        android:id="@+id/to_spinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/dialog_holo_light_frame"
-        android:spinnerMode="dialog"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/to_text"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <Button
-        android:id="@+id/search_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="40dp"
-        android:background="@drawable/rounded_rectangle"
-        android:text="Search"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/from_spinner" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="4dp"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_btn" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.softwire.lner.trainboard.mobile.activities.MainActivity">
+
+    <TextView
+            android:id="@+id/main_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5sp"
+            android:text="Main Text"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="75dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_text"
-        app:srcCompat="@drawable/ic_lner" />
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="75dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_text"
+            app:srcCompat="@drawable/ic_lner"
+            android:contentDescription="LNER" />
+
+    <TextView
+            android:id="@+id/from_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="From:"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="@+id/from_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+            android:id="@+id/to_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="1dp"
+            android:text="To:"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="@+id/to_button"
+            app:layout_constraintEnd_toStartOf="@+id/to_button"
+            app:layout_constraintStart_toEndOf="@+id/from_button"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <Button
+            android:id="@+id/to_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/dialog_holo_light_frame"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/to_text"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <Button
+            android:id="@+id/from_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/dialog_holo_light_frame"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toStartOf="@+id/to_text"
+            app:layout_constraintStart_toEndOf="@+id/from_text"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <Button
+            android:id="@+id/search_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/rounded_rectangle"
+            android:text="Search"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/from_button" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
