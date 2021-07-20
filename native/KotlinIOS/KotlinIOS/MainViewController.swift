@@ -21,6 +21,17 @@ class MainViewController: UIViewController {
     }
     
     @objc func didGetSelectedStationNotification(notification: Notification) {
+        let selectionReturn = notification.object as! SelectionReturn
+        if (selectionReturn.type == "Departure station") {
+            fromSelected = selectionReturn.stationSelected
+            fromButton.setTitle(fromSelected.stationName, for: .normal)
+            fromButton.titleLabel?.textAlignment = NSTextAlignment.center
+        }
+        else{
+            toSelected = selectionReturn.stationSelected
+            toButton.setTitle(toSelected.stationName, for: .normal)
+            toButton.titleLabel?.textAlignment = NSTextAlignment.center
+        }
     }
     
     
@@ -49,7 +60,6 @@ class MainViewController: UIViewController {
         performSegue(withIdentifier: "SearchViewSegue", sender: self)
         NotificationCenter.default.post(name: Notification.Name("SearchViewTitle"), object: title)
         NotificationCenter.default.post(name: Notification.Name("SearchViewStations"), object: stations)
-        NSLog("Notification sent")
     }
     
     
@@ -62,10 +72,14 @@ extension MainViewController: ApplicationContractView {
     
     func disableSearchButton() {
         button.isEnabled = false
+        toButton.isEnabled = false
+        fromButton.isEnabled = false
     }
     
     func enableSearchButton() {
         button.isEnabled = true
+        toButton.isEnabled = true
+        fromButton.isEnabled = true
     }
     
     func setTitle(title: String) {
