@@ -40,10 +40,10 @@ class SearchPresenter: SearchContract.Presenter() {
                             || it.crs!!.startsWith(filter)
                             || it.nlc.startsWith(filter) }
                 }
-                if (stationsToDisplay.count() == 0) {
-                    view.displayErrorMessage("No suitable stations found.")
-                }
                 withContext(dispatchers.main) {
+                    if (stationsToDisplay.count() == 0) {
+                        view.displayErrorMessage("No suitable stations found.")
+                    }
                     view.displayStations(stationsToDisplay)
                 }
             }
