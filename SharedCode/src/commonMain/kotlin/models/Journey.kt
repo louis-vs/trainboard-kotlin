@@ -24,6 +24,8 @@ class Journey(
         get() = dateTimeTzToString(stringToDateTimeTz(departureTime))
     val arrivalTimeFormatted: String
         get() = dateTimeTzToString(stringToDateTimeTz(arrivalTime))
-    val extraDay: String
+    val arrivalExtraDay: String
         get() = extraDay(stringToDateTimeTz(arrivalTime))
+    val departureExtraDay: String
+        get() = extraDay(stringToDateTimeTz(departureTime))
 }

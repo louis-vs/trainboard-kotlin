@@ -4,11 +4,12 @@ import SharedCode
 class ResultsTableCell : UITableViewCell {
     @IBOutlet weak var departureTime: UILabel!
     @IBOutlet weak var arrivalTime: UILabel!
+    @IBOutlet weak var departureExtraDay: UILabel!
+    @IBOutlet weak var arrivalExtraDay: UILabel!
     @IBOutlet weak var departureStation: UILabel!
     @IBOutlet weak var arrivalStation: UILabel!
     @IBOutlet weak var status: UITextView!
     @IBOutlet weak var arrow: UIImageView!
-    @IBOutlet weak var extraDay: UILabel!
 }
 
 class StationsTableCell : UITableViewCell {

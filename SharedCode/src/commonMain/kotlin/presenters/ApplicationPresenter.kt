@@ -45,16 +45,16 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
             withContext(dispatchers.io) {
                 val response = apiClient.queryApi(StationsApiRequest())
                 val stationCollection = response.collection
-                val stations: List<Station>
+                var stations: List<Station>
 
                 if (stationCollection is StationCollection) {
-                    stations = stationCollection.stations
 
-                    // enter UI thread to update spinner
-                    withContext(dispatchers.main) {
-                        // add all stations that don't have a null CRS identifier
-                        // TODO: sort stations?
-                        view.saveStations(stations.filter { it.crs != null })
+                    withContext(dispatchers.default) {
+                        stations = stationCollection.stations.filter { it.crs != null }.sortedBy { it.stationName }
+
+                        withContext(dispatchers.main) {
+                            view.saveStations(stations)
+                        }
                     }
                 } else {
                     // the response did not contain a station collection

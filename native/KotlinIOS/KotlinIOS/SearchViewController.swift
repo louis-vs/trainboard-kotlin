@@ -22,6 +22,7 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         presenter.onViewTaken(view: self)
         filterBar.delegate = self
+        filterBar.placeholder = "Enter your \(title!.lowercased())"
     }
     
     override func viewDidAppear(_ animated: Bool) {

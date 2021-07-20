@@ -18,6 +18,7 @@ class ResultsRecyclerViewAdapter(private val dataSet: JourneyCollection) : Recyc
         val arrivalTimeView: TextView = view.findViewById(R.id.arrivalTime)
         val arrivalExtraDayView: TextView = view.findViewById(R.id.arrivalExtraDay)
         val departureStationView: TextView = view.findViewById(R.id.departureStation)
+        val departureExtraDayView: TextView = view.findViewById(R.id.departureExtraDay)
         val arrivalStationView: TextView = view.findViewById(R.id.arrivalStation)
         val statusView: TextView = view.findViewById(R.id.statusText)
         val statusDrawable: GradientDrawable = statusView.background as GradientDrawable
@@ -34,7 +35,8 @@ class ResultsRecyclerViewAdapter(private val dataSet: JourneyCollection) : Recyc
         val journey = dataSet.outboundJourneys[position]
         viewHolder.departureTimeView.text = journey.departureTimeFormatted
         viewHolder.arrivalTimeView.text = journey.arrivalTimeFormatted
-        viewHolder.arrivalExtraDayView.text = journey.extraDay
+        viewHolder.departureExtraDayView.text = journey.departureExtraDay
+        viewHolder.arrivalExtraDayView.text = journey.arrivalExtraDay
         viewHolder.departureStationView.text = journey.originStation.displayName
         viewHolder.arrivalStationView.text = journey.destinationStation.displayName
         viewHolder.statusView.text = journey.status.statusText

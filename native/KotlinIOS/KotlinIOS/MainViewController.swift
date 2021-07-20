@@ -117,7 +117,8 @@ extension MainViewController : UITableViewDataSource {
         
         cell.departureTime.text = journey.departureTimeFormatted
         cell.arrivalTime.text = journey.arrivalTimeFormatted
-        cell.extraDay.text = journey.extraDay
+        cell.departureExtraDay.text = journey.departureExtraDay
+        cell.arrivalExtraDay.text = journey.arrivalExtraDay
         cell.departureStation.text = journey.originStation.displayName
         cell.arrivalStation.text = journey.destinationStation.displayName
         cell.status.text = journey.status.statusText

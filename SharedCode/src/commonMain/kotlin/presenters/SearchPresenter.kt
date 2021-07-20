@@ -36,9 +36,9 @@ class SearchPresenter: SearchContract.Presenter() {
             withContext(dispatchers.default) {
                 var stationsToDisplay = stations.toList()
                 if (filter != null){
-                    stationsToDisplay = stations.filter { it.stationName.toLowerCase().startsWith(filter)
-                            || it.crs!!.startsWith(filter)
-                            || it.nlc.startsWith(filter) }
+                    stationsToDisplay = stations.filter { it.stationName.startsWith(filter, ignoreCase = true)
+                            || it.crs!!.startsWith(filter, ignoreCase = true)
+                            || it.nlc.startsWith(filter, ignoreCase = true) }
                 }
                 withContext(dispatchers.main) {
                     view.displayStations(stationsToDisplay)

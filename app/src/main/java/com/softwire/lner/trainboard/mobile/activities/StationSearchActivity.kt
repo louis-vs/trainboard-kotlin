@@ -71,7 +71,7 @@ class StationSearchActivity : AppCompatActivity(), SearchContract.View {
 
     // CONTRACTUAL OBLIGATIONS
 
-    override fun setTitle(title: String) {
+    fun setTitle(title: String) {
         searchTitle.text = title
     }
 
