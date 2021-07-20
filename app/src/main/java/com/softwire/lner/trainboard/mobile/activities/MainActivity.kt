@@ -31,6 +31,11 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     private var fromStation: Station? = null
     private var toStation: Station? = null
 
+    companion object {
+        internal const val PICK_FROM_STATION_REQUEST = 0
+        internal const val PICK_TO_STATION_REQUEST = 1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -42,7 +47,10 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
         // add event listeners
         fromButton.setOnClickListener {
-            startActivityForResult(Intent(this, ), )
+            startActivityForResult(Intent(this, StationSearchActivity::class.java), PICK_FROM_STATION_REQUEST)
+        }
+        toButton.setOnClickListener {
+            startActivityForResult(Intent(this, StationSearchActivity::class.java), PICK_TO_STATION_REQUEST)
         }
         searchButton.setOnClickListener {
             if (fromStation != null && toStation != null) {
@@ -58,8 +66,19 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         presenter.onViewTaken(this)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
+
+        when (requestCode) {
+            PICK_FROM_STATION_REQUEST ->
+                if (resultCode == RESULT_OK) {
+                    fromStation = stations.find { it.crs == intent?.dataString }
+                }
+            PICK_TO_STATION_REQUEST ->
+                if (resultCode == RESULT_OK) {
+                    toStation = stations.find { it.crs == intent?.dataString }
+                }
+        }
     }
 
     // CONTRACTUAL OBLIGATIONS
@@ -69,10 +88,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     override fun setStations(stations: List<Station>) {
-        val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, stations)
-        fromButton.adapter = adapter
-        toButton.adapter = adapter
-        toButton.setSelection(1)
+        this.stations = stations
     }
 
     override fun openUrl(url: String) {
@@ -84,7 +100,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     override fun saveStations(stations: List<Station>) {
-        //TODO("Not yet implemented")
+        this.stations = stations
     }
 
     override fun displayErrorMessage(message: String) {
