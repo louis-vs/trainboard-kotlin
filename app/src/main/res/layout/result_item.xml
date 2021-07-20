@@ -79,8 +79,8 @@
                 android:background="@drawable/rounded_rectangle"
                 android:rotation="180"
                 app:layout_constraintBottom_toBottomOf="@+id/departureStation"
-                app:layout_constraintEnd_toStartOf="@+id/arrivalTime"
-                app:layout_constraintStart_toEndOf="@+id/departureTime"
+                app:layout_constraintEnd_toStartOf="@+id/arrivalStation"
+                app:layout_constraintStart_toEndOf="@+id/departureStation"
                 app:layout_constraintTop_toTopOf="@+id/departureStation"
                 app:srcCompat="@drawable/abc_vector_test" />
 
@@ -88,15 +88,15 @@
                 android:id="@+id/arrivalStation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:maxWidth="130dp"
                 android:text="Arrival"
                 android:textAlignment="center"
                 android:textColor="@color/textColorSecondary"
                 android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/departureStation"
                 app:layout_constraintEnd_toEndOf="@+id/arrivalTime"
                 app:layout_constraintStart_toStartOf="@+id/arrivalTime"
-                app:layout_constraintTop_toBottomOf="@+id/arrivalTime" />
+                app:layout_constraintTop_toTopOf="@+id/departureStation" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="100dp"
