@@ -29,7 +29,6 @@ class SearchPresenter: SearchContract.Presenter() {
      */
     override fun onViewTaken(view: SearchContract.View) {
         this.view = view
-        view.setTitle(createSearchTitle())
     }
 
     override fun filterStations(filter: String?, stations: List<Station>) {
@@ -42,9 +41,6 @@ class SearchPresenter: SearchContract.Presenter() {
                             || it.nlc.startsWith(filter) }
                 }
                 withContext(dispatchers.main) {
-                    if (stationsToDisplay.count() == 0) {
-                        view.displayErrorMessage("No suitable stations found.")
-                    }
                     view.displayStations(stationsToDisplay)
                 }
             }
