@@ -28,7 +28,6 @@ class SearchPresenter: SearchContract.Presenter() {
      */
     override fun onViewTaken(view: SearchContract.View) {
         this.view = view
-        view.setTitle(createAppTitle())
     }
 
     override fun filterStations(filter: String?, stations: List<Station>) {

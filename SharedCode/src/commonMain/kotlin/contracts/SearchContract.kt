@@ -11,11 +11,6 @@ import kotlinx.coroutines.CoroutineScope
 interface SearchContract {
     interface View {
         /**
-         * Sets the heading and subheading for the window.
-         */
-        fun setTitle(title: String)
-
-        /**
          * Sets the contents of the spinners/pickers to a list of station codes
          */
         fun displayStations(stations: List<Station>)
