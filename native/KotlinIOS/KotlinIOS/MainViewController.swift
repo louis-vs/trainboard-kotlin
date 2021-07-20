@@ -1,25 +1,34 @@
 import UIKit
 import SharedCode
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
 
-    @IBOutlet private var mainText: UILabel!
-    @IBOutlet private var subHeader: UILabel!
-    @IBOutlet private var picker: UIPickerView!
+    @IBOutlet private var fromButton: UIButton!
+    @IBOutlet private var toButton: UIButton!
     @IBOutlet private var button: UIButton!
     @IBOutlet private var resultsTable: UITableView!
     
-    private var pickerData: [Station] = [Station]()
+    private var stations: [Station] = [Station]()
     private var fromSelected: Station!
     private var toSelected: Station!
     private var journeyCollection: JourneyCollection!
     
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
     
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        NotificationCenter.default.addObserver(self, selector: #selector(didGetSelectedStationNotification(notification:)), name: Notification.Name("StationsSelected"), object: nil)
+    }
+    
+    @objc func didGetSelectedStationNotification(notification: Notification) {
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.onViewTaken(view: self)
-        
+        fromButton.layer.borderColor = UIColor.darkGray.cgColor
+        toButton.layer.borderColor = UIColor.darkGray.cgColor
         button.setTitle("Loading...", for: .disabled)
         
     }
@@ -27,9 +36,30 @@ class ViewController: UIViewController {
     @IBAction func sendSelection() {
         presenter.runSearch(from: fromSelected, to: toSelected)
     }
+    
+    @IBAction func launchDepartureSearch() {
+        launchSearchActivity(title: "Departure station")
+    }
+    
+    @IBAction func launchArrivalSearch() {
+        launchSearchActivity(title: "Arrival station")
+    }
+    
+    func launchSearchActivity(title: String) {
+        performSegue(withIdentifier: "SearchViewSegue", sender: self)
+        NotificationCenter.default.post(name: Notification.Name("SearchViewTitle"), object: title)
+        NotificationCenter.default.post(name: Notification.Name("SearchViewStations"), object: stations)
+        NSLog("Notification sent")
+    }
+    
+    
 }
 
-extension ViewController: ApplicationContractView {
+extension MainViewController: ApplicationContractView {
+    func saveStations(stations: [Station]) {
+        self.stations = stations
+    }
+    
     func disableSearchButton() {
         button.isEnabled = false
     }
@@ -39,7 +69,8 @@ extension ViewController: ApplicationContractView {
     }
     
     func setTitle(title: String) {
-        mainText.text = "\n" + title
+        self.title = title
+        self.navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 25), NSAttributedString.Key.foregroundColor: UIColor.white]
     }
     
     func displayErrorMessage(message: String) {
@@ -61,46 +92,10 @@ extension ViewController: ApplicationContractView {
         }
     }
     
-    func setStations(stations: [Station]) {
-        pickerData = stations
-        fromSelected = stations[0]
-        toSelected = stations[1]
-        picker.dataSource = self
-        picker.delegate = self
-        picker.selectRow(1, inComponent: 1, animated: false)
-    }
+    func setStations(stations: [Station]) {}
 }
 
-extension ViewController: UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 2
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count
-    }
-}
-
-extension ViewController: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        let label = UILabel()
-        label.text = pickerData[row].stationName
-        label.textAlignment = .center
-        label.adjustsFontSizeToFitWidth=true
-        label.font = UIFont(name: "System", size: 10)
-        return label
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch component {
-        case 0: fromSelected = pickerData[row]
-        case 1: toSelected = pickerData[row]
-        default: break
-        }
-    }
-}
-
-extension ViewController : UITableViewDataSource {
+extension MainViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "results_item", for: indexPath) as! ResultsTableCell
@@ -129,16 +124,6 @@ extension ViewController : UITableViewDataSource {
     func toCGFloat(component: Int32) -> CGFloat {
         return CGFloat(Double(component) / 256.0)
     }
-}
-
-class ResultsTableCell : UITableViewCell {
-    @IBOutlet weak var departureTime: UILabel!
-    @IBOutlet weak var arrivalTime: UILabel!
-    @IBOutlet weak var departureStation: UILabel!
-    @IBOutlet weak var arrivalStation: UILabel!
-    @IBOutlet weak var status: UITextView!
-    @IBOutlet weak var arrow: UIImageView!
-    @IBOutlet weak var extraDay: UILabel!
 }
 
 
