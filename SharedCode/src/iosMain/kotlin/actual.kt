@@ -19,6 +19,9 @@ actual class AppDispatchersImpl: AppDispatchers {
     @SharedImmutable
     override val io: CoroutineDispatcher = NSQueueDispatcher(dispatch_get_main_queue())
 
+    @SharedImmutable
+    override val default: CoroutineDispatcher = NSQueueDispatcher(dispatch_get_main_queue())
+
     class NSQueueDispatcher(
         @SharedImmutable private val dispatchQueue: dispatch_queue_t
     ): CoroutineDispatcher() {
