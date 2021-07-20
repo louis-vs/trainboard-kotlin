@@ -6,9 +6,9 @@ import com.soywiz.klock.parse
 
 expect fun platformName(): String
 
-fun createAppTitle(): String {
-    return "Journey Planner"
-}
+fun createAppTitle() = "Journey Planner"
+
+fun createSearchTitle() = "Search stations"
 
 fun dateTimeTzToString(dateTimeTz: DateTimeTz) = dateTimeTz.format("HH:mm")
 
