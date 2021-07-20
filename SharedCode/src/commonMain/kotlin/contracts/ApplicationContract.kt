@@ -21,11 +21,6 @@ interface ApplicationContract {
         fun saveStations(stations: List<Station>)
 
         /**
-         * Launches activity for station selection.
-         */
-        fun launchSearchActivity(title: String)
-
-        /**
          * Displays an error message to the user
          */
         fun displayErrorMessage(message: String)
