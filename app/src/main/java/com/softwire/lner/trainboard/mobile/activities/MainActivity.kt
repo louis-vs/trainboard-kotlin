@@ -26,11 +26,11 @@ import com.softwire.lner.trainboard.mobile.presenters.ApplicationPresenter
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
     private lateinit var presenter: ApplicationContract.Presenter
-
     private lateinit var fromSpinner: Spinner
     private lateinit var toSpinner: Spinner
     private lateinit var searchButton: Button
     private lateinit var recyclerView: RecyclerView
+    private lateinit var stations: List<Station>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +73,10 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         }
     }
 
+    override fun saveStations(stations: List<Station>) {
+        //TODO("Not yet implemented")
+    }
+
     override fun displayErrorMessage(message: String) {
        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
@@ -94,6 +98,10 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     override fun enableSearchButton() {
         searchButton.isEnabled = true
         searchButton.text = "Search"
+    }
+
+    override fun launchSearchActivity() {
+        //TODO("Not yet implemented")
     }
 
     override fun disableSearchButton() {

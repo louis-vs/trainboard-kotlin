@@ -5,8 +5,8 @@ import com.softwire.lner.trainboard.mobile.models.Station
 import kotlinx.coroutines.CoroutineScope
 
 /**
- * This contract specifies what methods a view must implement, and what methods the presenter
- * exposes to the view.
+ * This contract specifies what methods the Main view must implement, and what methods the Main
+ * presenter exposes to the view.
  */
 interface ApplicationContract {
     interface View {
@@ -16,14 +16,14 @@ interface ApplicationContract {
         fun setTitle(title: String)
 
         /**
-         * Sets the contents of the spinners/pickers to a list of station codes
+         * Saves a list of Station objects as private variable.
          */
-        fun setStations(stations: List<Station>)
+        fun saveStations(stations: List<Station>)
 
         /**
-         * Opens a URL in the browser.
+         * Launches activity for station selection.
          */
-        fun openUrl(url: String)
+        fun launchSearchActivity()
 
         /**
          * Displays an error message to the user
@@ -34,6 +34,16 @@ interface ApplicationContract {
 
         fun enableSearchButton()
         fun disableSearchButton()
+
+        /**
+         * [RETIRED: Reference Only] Sets the contents of the spinners/pickers to a list of Station objects.
+         */
+        fun setStations(stations: List<Station>)
+
+        /**
+         * [RETIRED: Reference Only] Opens a URL in the browser.
+         */
+        fun openUrl(url: String)
     }
 
     abstract class Presenter: CoroutineScope {

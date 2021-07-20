@@ -54,7 +54,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                     withContext(dispatchers.main) {
                         // add all stations that don't have a null CRS identifier
                         // TODO: sort stations?
-                        view.setStations(stations.filter { it.crs != null })
+                        view.saveStations(stations.filter { it.crs != null })
                     }
                 } else {
                     // the response did not contain a station collection
