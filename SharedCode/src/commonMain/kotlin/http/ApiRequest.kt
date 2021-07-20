@@ -15,6 +15,7 @@ abstract class ApiRequest(protected val path: String, val requestType: RequestTy
      */
     companion object {
         const val HOST_NAME = "mobile-api-softwire2.lner.co.uk"
+        // const val HOST_NAME = "mobile-api-dev.lner.co.uk"
         const val FARES_PATH = "/v1/fares"
         const val STATIONS_PATH = "/v1/stations"
     }
